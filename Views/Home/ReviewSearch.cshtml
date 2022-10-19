@@ -1,0 +1,49 @@
+﻿@model DataTrack.Models.HomeModel
+@{
+    ViewBag.Title = "Home Page";
+    WebGrid webGrid = Model.webGrid;
+
+}
+<div>
+    <br />
+    @using (Html.BeginForm("ReviewSearch", "Home", FormMethod.Post, new { @id = "WebGridForm" }))
+    {
+        <span>Reference ID:</span> @Html.TextBox("ReferenceID")
+        @*<span>Review Type:</span> @Html.TextBox("ReviewType")
+            <span>Type:</span> @Html.TextBox("Type")
+            <span>Timing:</span> @Html.TextBox("Timing")
+            <span>Status:</span> @Html.TextBox("Status")
+            <span>Complete Date:</span> @Html.TextBox("CompleteDate")*@
+        <input type="submit" value="Search" />
+    }
+    <br />
+
+    @webGrid.GetHtml(htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: webGrid.Columns(
+                 webGrid.Column("ReferenceNumber", "Reference ID", format: @<text> @Html.ActionLink(linkText: (string)@item.ReferenceNumber, actionName: "ReviewDetails", routeValues: new { id = item.ReferenceNumber, revType = item.reviewtype })</text>),
+webGrid.Column("reviewtype", "Review Type"),
+webGrid.Column("requesttype", "Type"),
+webGrid.Column("RequestTiming", "Timing"),
+webGrid.Column("ReviewStatus", "Status"),
+webGrid.Column("completedate", "Complete Date")))
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $("body").on("click", ".Grid tfoot a", function () {
+        $('#WebGridForm').attr('action', $(this).attr('href')).submit();
+        return false;
+    });
+</script>
+@if (Model.webGrid.Rows.Count == 0)
+{
+    <script type="text/javascript">
+        $(function () {
+            var row = $("#WebGrid")[0].insertRow(-1);
+            var cell = $(row.insertCell(-1));
+            cell.html("No records found.");
+            cell.attr("colspan", "4").attr("align", "center");
+        });
+    </script>
+}
+
+

@@ -1,0 +1,319 @@
+﻿@model List<DataTrack.Models.ReviewDetailsModel>
+@using DataTrack.Models
+@{
+    ViewBag.Title = "Details";
+}
+<br />
+<div>
+    <table style="width:100%">
+        <thead>
+            <tr style="background-color:lightgray; width:100%">
+                @{
+                    string name = Model[0].MemberName;
+                    string number = Model[0].MemberNumber;
+                    string dob = Model[0].MemberDOB;
+                    string gen = Model[0].MemberGender;
+                    if (gen == "F")
+                    {
+                        gen = "Female";
+                    }
+                    else
+                    {
+                        gen = "Male";
+                    }
+
+                    string age = Model[0].MemberCurrentAge;
+                    string ssn = Model[0].MemberSSN;
+                    string xxssn = string.Empty;
+                    if (ssn != "")
+                    {
+                        xxssn = string.Concat("XXX-XX-", ssn.Substring(ssn.Length - 4));
+                    }
+
+                    string phone = Model[0].MemberPhone;
+                    string revType = Model[0].ReviewType;
+                    string refId = Model[0].ReferenceID;
+                    DateTime startDate = Model[0].StartDate;
+                    string status = Model[0].Status;
+                    string completeDate = Model[0].CompleteDate;
+                    string reviewTiming = Model[0].ReviewTiming;
+
+                }
+                <td style="padding:1px; width:1%">@Html.Label(name)</td>
+                <td style="padding:1px; width:8%"><span>ID : </span>@Html.Label(number)</td>
+                <td style="padding:1px; width:14%"><span>Date of Birth : </span>@Html.Label(dob)</td>
+                <td style="padding:1px; width:8%"><span>Gender : </span>@Html.Label(gen)</td>
+                <td style="padding:1px; width:8%"><span>Current Age : </span>@Html.Label(age)</td>
+                <td style="padding:1px; width:14%"><span>SSN : </span>@Html.Label(xxssn)</td>
+                <td style="padding:1px; width:8%"><span>Phone# : </span>@Html.Label(phone)<br /></td>
+
+            </tr>
+            <tr>
+                <td><br />@Html.Label(revType, new { style = "font-size:20px" })</td>
+            </tr>
+            <tr>
+                <td><span>Reference ID: </span>@Html.Label(refId)</td>
+            </tr>
+            <tr>
+                <td><span>Start Date: </span>@Html.Label(startDate.ToString("MM/dd/yyyy"))</td>
+            </tr>
+            <tr>
+                <td><span>Status: </span>@Html.Label(status)</td>
+            </tr>
+            <tr>
+                <td><span>Complete Date: </span>@Html.Label(completeDate)</td>
+            </tr>
+            <tr>
+                <td><span>Review Timing: </span>@Html.Label(reviewTiming)</td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    @Html.Label("Service Recommendations", new { style = "font-size:17px;width:250px" })
+                </td>
+            </tr>
+            <tr style="background-color:lightskyblue; line-height:18px; width:100%">
+                <td>
+                    @Html.Label("Treatment Requested")
+                </td>
+                <td style="text-align: center">@Html.Label("Requested Dates")</td>
+                <td style="text-align: center">@Html.Label("Requested Quantity")</td>
+                <td style="text-align: center">@Html.Label("Recommended Dates")</td>
+                <td style="text-align: center">@Html.Label("Recommended Quantity")</td>
+                <td style="text-align: center">@Html.Label("Outcome")</td>
+                <td style="text-align: center">@Html.Label("Rationale")</td>
+            </tr>
+            <tr style="border:solid">
+                @{
+                    string trtreq = Model[0].TreatmentRequested;
+                    string reqDate = Model[0].TreatmentRequestDates;
+                    string reqQuan = Model[0].TreatmentRequestQuantity.ToString();
+                    string recDate = Model[0].TreatmentRecommendedDates;
+                    string recQuan = Model[0].TreatmentRecommendedQuantity.ToString();
+                    string outcome = Model[0].TreatmentOutcome;
+
+                }
+                <td style="padding:1px; width:20px; text-align:center; font-size:11px">
+                    @Html.Label(trtreq)
+                </td>
+                <td style="padding:1px; width:100px; text-align:center; font-size:11px">
+                    @Html.Label(reqDate)
+                </td>
+                <td style="padding:1px; width:20px; text-align:center; font-size:11px">
+                    @Html.Label(reqQuan)
+                </td>
+                @{
+                    if (Model[0].ReviewType == "Medical Necessity")
+                    {
+                        <td style="padding:1px; width:40px; text-align:center; font-size:11px">
+                            @Html.Label(recDate)
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+                }
+
+                <td style="padding:1px; width:20px; text-align:center; font-size:11px">
+                    @Html.Label(recQuan)
+                </td>
+                @{
+                    if (Model[0].ReviewType == "Medical Necessity")
+                    {
+                        <td style="padding:1px; width:20px; text-align:center; font-size:11px">
+                            @Html.Label(outcome)
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    @Html.Label("Clinical Questionnaire", new { style = "font-size:17px;width:250px" })
+                </td>
+            </tr>
+            <tr style="background-color:lightskyblue; line-height:18px; width:100%">
+                <td>
+                    @Html.Label("Title")
+                </td>
+                <td>
+                    @Html.Label("Completed Date")
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    @Html.Label("Activity", new { style = "font-size:17px;width:250px" })
+                </td>
+            </tr>
+            <tr style="background-color:lightskyblue; line-height:18px; width:100%">
+                <td>
+                    @Html.Label("Date")
+                </td>
+                <td>
+                    @Html.Label("Type")
+                </td>
+                <td>
+                    @Html.Label("Comments")
+                </td>
+                <td>
+                    @Html.Label("Letters")
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @{
+                foreach (ReviewDetailsModel mod in Model)
+                {
+                    string date = mod.ActivityDate.ToString();
+                    string type = mod.ActivityType;
+                    string lT = string.Empty;
+                    string comments = string.Empty;
+
+                    if (mod.ActivityComments == "")
+                    {
+                        comments = " ";
+                    }
+                    else
+                    {
+                        comments = "Comments";
+                    }
+                    if (mod.LetterTitle == "")
+                    {
+                        mod.LetterTitle = "Letter";
+                        lT = "Letter";
+                    }
+                    else
+                    {
+                        lT = mod.LetterTitle;
+                    }
+                    <tr>
+                        <td>
+                            @Html.Label(date)
+                        </td>
+                        <td>
+                            @Html.Label(type)
+                        </td>
+                        <td>
+                            @{
+                                if (mod.ActivityComments != "")
+                                {
+                                    @*@Html.ActionLink(comments, "#", new { activityID = mod.ActivityId }, new { @data_toggle = "modal", @data_target = "ModalPopUp" })*@
+                                    <a href="javascript:GetComments('@mod.ActivityComments');" id="btnComments" data-id="@mod.ActivityId" class="OpenDialog">@comments</a>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                if (mod.LetterLocation != "" && mod.LetterLocation != null)
+                                {
+                                    <a href="javascript:GetLetters('@mod.LetterLocation');" id="btnLetters" data-id="@mod.ActivityId" class="OpenDialog">@lT</a>
+                                }
+                            }
+                            @*@Html.ActionLink(lT, "GetLetters", routeValues: new { activityID = mod.ActivityId })*@
+                        </td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td>
+                    <br />
+                    @Html.Label("Utilization Requests", new { style = "font-size:17px;width:250px" })
+                </td>
+            </tr>
+            <tr style="background-color:lightskyblue; line-height:18px; width:100%">
+                <td>
+                    @Html.Label("Reference ID")
+                </td>
+                <td>
+                    @Html.Label("Date Requested")
+                </td>
+                <td>
+                    @Html.Label("Policy #")
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            @{
+
+                int count = Model[0].URCount;
+                for (int i = 0; i < count; i++)
+                {
+                    ReviewDetailsModel obj = Model[i];
+
+                    string refNum = obj.ReferenceID;
+                    string urDate = obj.URReqDate;
+                    string member = obj.MemberNumber;
+                    <tr>
+                        <td>
+                            @Html.Label(refNum)
+                        </td>
+                        <td>
+                            @Html.Label(urDate)
+                        </td>
+                        <td>
+                            @Html.Label(member)
+                        </td>
+                        <td>
+                            <input type="button" value="Select" onclick="location.href='@Url.Action("URDetails", "Home", new { id = obj.ReferenceID })'" />
+                        </td>
+                    </tr>
+                }
+            }
+
+
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="ModalPopUp" role="dialog">
+    <div class="modal-dialog err-pop" style="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="DivClose" type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align:center;">
+                Put Your Html Element Here
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function GetComments(text) {
+
+        $("#ModalPopUp").modal('show');
+        $(".modal-body").html(text);
+    }
+
+    function GetLetters(path) {
+        var img = new Image();
+        img.src = "/images/" + path;
+        /*img.src = 'http://localhost:44366/Image/capture.png';*/
+        window.open(img.src);
+    }
+</script>
+

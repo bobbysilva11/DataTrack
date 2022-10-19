@@ -1,0 +1,227 @@
+﻿@model DataTrack.Models.ClaimDetailsModel
+@using DataTrack.Models
+@{
+    ViewBag.Title = "Details";
+}
+<br />
+<div>
+    <table style="width:100%">
+        <thead>
+            <tr style="background-color:lightgray; width:100%">
+                @{
+                    string name = Model.MemberName;
+                    string number = Model.MemberNumber;
+                    string dob = Model.MemberDOB;
+                    string gen = Model.MemberGender;
+                    if (gen == "F")
+                    {
+                        gen = "Female";
+                    }
+                    else
+                    {
+                        gen = "Male";
+                    }
+
+                    string age = Model.MemberCurrentAge;
+                    string ssn = Model.MemberSSN;
+                    string xxssn = string.Empty;
+                    if (ssn != "")
+                    {
+                        xxssn = string.Concat("XXX-XX-", ssn.Substring(ssn.Length - 4));
+                    }
+
+                    string phone = Model.MemberPhone;
+
+                }
+                <td style="padding:1px; width:7%">@Html.Label(name)</td>
+                <td style="padding:1px; width:8%"><span>ID : </span>@Html.Label(number)</td>
+                <td style="padding:1px; width:14%"><span>Date of Birth : </span>@Html.Label(dob)</td>
+                <td style="padding:1px; width:8%"><span>Gender : </span>@Html.Label(gen)</td>
+                <td style="padding:1px; width:8%"><span>Current Age : </span>@Html.Label(age)</td>
+                <td style="padding:1px; width:14%"><span>SSN : </span>@Html.Label(xxssn)</td>
+                <td style="padding:1px; width:8%"><span>Phone# : </span>@Html.Label(phone)<br /></td>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding:1px; width:10%"><br />@Html.Label("Patient Summary", new { style = "font-size:20px" })</td>
+            </tr>
+            <tr>
+                <td><br />@Html.Label("Contact Information", new { style = "font-size:17px" })</td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    @{
+                        if (Model.MemberPhone == "" && Model.MemberPhone != null)
+                        {
+                            @Html.Label("No Phone Information Available");
+
+                        }
+                        else
+                        {
+                            @Html.Label(Model.MemberPhone);
+                        }
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    @{
+                        if (Model.Email == "" || Model.Email == null)
+                        {
+                            @Html.Label("No Email Information Available");
+                        }
+                        else
+                        {
+                            @Html.Label(Model.Email);
+                        }
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><br />@Html.Label("Address Information", new { style = "font-size:20px" })</td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    @{
+                        if (Model.Address == "" || Model.Address == null)
+                        {
+                            @Html.Label("No Address Information Available");
+                        }
+                        else
+                        {
+                            @Html.Label(Model.Address);
+                        }
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><br />@Html.Label("Eligibility List", new { style = "font-size:20px" })<br /></td>
+            </tr>
+            <tr style="background-color:lightskyblue; line-height:18px; width:100%">
+                <td>@Html.Label("Coverage Type")</td>
+                <td style="text-align: center">@Html.Label("Start Date")</td>
+                <td style="text-align: center">@Html.Label("End Date")</td>
+                <td style="text-align: center">@Html.Label("Relation To Holder")</td>
+                <td style="text-align: center">@Html.Label("Policy Number")</td>
+                <td style="text-align: center">@Html.Label("Group Number")</td>
+                <td style="text-align: center">@Html.Label("State of Issue")</td>
+                <td style="text-align: center">@Html.Label("Payer")</td>
+                <td style="text-align: center">@Html.Label("Plan Name")</td>
+            </tr>
+            <tr style="border:solid">
+                <td style="text-align: center">@Html.Label(Model.ELCoverageType)</td>
+                <td></td>
+                <td></td>
+                @*<td>@Html.Label(Model.ELStartDate)</td>
+            <td>@Html.Label(Model.ELEndDate)</td>*@
+                <td style="text-align: center">@Html.Label(Model.ELRelationToHolder)</td>
+                <td style="text-align: center">@Html.Label(Model.ELPolicyNumber)</td>
+                <td></td>
+                <td></td>
+                @*<td>@Html.Label(Model.ELGroupNumber)</td>*@
+                @*<td>@Html.Label(Model.ELStateofIssue)</td>*@
+                <td style="text-align: center">@Html.Label(Model.ELPayer)</td>
+                <td></td>
+                @*<td>@Html.Label(Model.ELPlanName)</td>*@
+
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    @Html.Label("Reviews", new { style = "font-size:17px;width:250px" })
+                </td>
+            </tr>
+            <tr style="background-color:lightskyblue; line-height:18px; width:100%">
+                <td>
+                    @Html.Label("Reference ID")
+                </td>
+                <td>
+                    @Html.Label("Type")
+                </td>
+                <td>
+                    @Html.Label("Status")
+                </td>
+                <td>@Html.Label("Start Date")</td>
+                <td>@Html.Label("Complete Date")</td>
+                <td>@Html.Label("Reconsideration Date")</td>
+            </tr>
+            @{
+                foreach (ReviewDetailsModel review in Model.Reviews)
+                {
+                    if (review.ReviewType == "DRG")
+                    {
+                        <tr>
+                            <td>@Html.Label(review.ReferenceID)</td>
+                            <td>@Html.Label(review.ReviewType)</td>
+                            <td>@Html.Label(review.Status)</td>
+                            <td>@Html.Label(review.StartDate.ToShortDateString())</td>
+                            <td>@Html.Label(review.CompleteDate)</td>
+                            <td><input type="button" value="Select" onclick="location.href='@Url.Action("DRGDetails", "Home", new { id = review.ReferenceID })'" /></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@Html.Label(review.ReferenceID)</td>
+                            <td>@Html.Label(review.ReviewType)</td>
+                            <td>@Html.Label(review.Status)</td>
+                            <td>@Html.Label(review.StartDate.ToShortDateString())</td>
+                            <td>@Html.Label(review.CompleteDate)</td>
+                            <td><input type="button" value="Select" onclick="location.href='@Url.Action("ReviewDetails", "Home", new { id = review.ReferenceID, revType = review.ReviewType })'" /></td>
+                        </tr>
+                    }
+
+                }
+
+            }
+            <tr>
+                <td>
+                    <br />
+                    @Html.Label("Utilization Requests", new { style = "font-size:17px;width:250px" })
+                </td>
+            </tr>
+            <tr style="background-color:lightskyblue; line-height:18px; width:100%">
+                <td>
+                    @Html.Label("Reference ID")
+                </td>
+                <td>
+                    @Html.Label("Date Requested")
+                </td>
+                <td>
+                    @Html.Label("Policy #")
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @{
+
+                foreach (URDetailsModel ur in Model.uRDetails)
+                {
+                    <tr>
+                        <td>
+                            @Html.Label(ur.RefID)
+                        </td>
+                        <td>
+                            @Html.Label(ur.RequestDate)
+                        </td>
+                        <td>
+                            @Html.Label(ur.PolicyNumber)
+                        </td>
+                        <td>
+                            <input type="button" value="Select" onclick="location.href='@Url.Action("URDetails", "Home", new { id = ur.RefID })'" />
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+

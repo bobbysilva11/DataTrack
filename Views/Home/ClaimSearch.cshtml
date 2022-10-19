@@ -1,0 +1,49 @@
+﻿@model DataTrack.Models.HomeModel
+@{
+    ViewBag.Title = "Claim Search";
+    WebGrid webGrid = Model.webGrid;
+
+}
+<div>
+    <br />
+    @using (Html.BeginForm("ClaimSearch", "Home", FormMethod.Post, new { @id = "WebGridForm" }))
+    {
+        <span>Claim Number:</span> @Html.TextBox("ClaimNumber")
+        @*<span>Review Type:</span> @Html.TextBox("ReviewType")
+            <span>Type:</span> @Html.TextBox("Type")
+            <span>Timing:</span> @Html.TextBox("Timing")
+            <span>Status:</span> @Html.TextBox("Status")
+            <span>Complete Date:</span> @Html.TextBox("CompleteDate")*@
+        <input type="submit" value="Search" />
+    }
+    <br />
+
+    @webGrid.GetHtml(htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: webGrid.Columns(
+                 webGrid.Column("ClaimNumber", "Claim Number", format: @<text> @Html.ActionLink(linkText: (string)@item.ClaimNumber.ToString(), actionName: "ClaimDetails", routeValues: new { ClaimNumber = item.ClaimNumber })</text>),
+webGrid.Column("Lastname", "Last Name"),
+webGrid.Column("FirstName", "First Name"),
+webGrid.Column("DOB", "DOB")));
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $("body").on("click", ".Grid tfoot a", function () {
+        $('#WebGridForm').attr('action', $(this).attr('href')).submit();
+        return false;
+    });
+</script>
+@if (Model.webGrid.Rows.Count == 0)
+{
+    <script type="text/javascript">
+        $(function () {
+            var row = $("#WebGrid")[0].insertRow(-1);
+            var cell = $(row.insertCell(-1));
+            cell.html("No records found.");
+            cell.attr("colspan", "4").attr("align", "center");
+        });
+    </script>
+}
+
+
+
+

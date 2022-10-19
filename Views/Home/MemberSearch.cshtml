@@ -1,0 +1,44 @@
+﻿@model DataTrack.Models.HomeModel
+@{
+    ViewBag.Title = "Home Page";
+    WebGrid webGrid = Model.webGrid;
+
+}
+
+<div class="row">
+    <br />
+    @using (Html.BeginForm("MemberSearch", "Home", FormMethod.Post, new { @id = "WebGridForm" }))
+    {
+        <span>Last Name:</span> @Html.TextBox("LastName")
+        <span>First Name:</span> @Html.TextBox("FirstName")
+        <span>Member ID:</span> @Html.TextBox("MemberNumber")
+        <input type="submit" value="Search" />
+    }
+    <br />
+
+    @webGrid.GetHtml(htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: webGrid.Columns(
+                 webGrid.Column("lastname", "Last Name", format: @<text> @Html.ActionLink(linkText: (string)@item.lastname, actionName: "MemberDetails", routeValues: new { memberNumber = item.membernumber })</text>),
+                 webGrid.Column("firstname", "First Name"),
+                 webGrid.Column("membernumber", "Member Number"),
+                 webGrid.Column("dob", "Date of Birth"),
+                 webGrid.Column("CurrentAge", "Current Age")))
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $("body").on("click", ".Grid tfoot a", function () {
+        $('#WebGridForm').attr('action', $(this).attr('href')).submit();
+        return false;
+    });
+</script>
+@if (Model.webGrid.Rows.Count == 0)
+{
+    <script type="text/javascript">
+        $(function () {
+            var row = $("#WebGrid")[0].insertRow(-1);
+            var cell = $(row.insertCell(-1));
+            cell.html("No records found.");
+            cell.attr("colspan", "4").attr("align", "center");
+        });
+    </script>
+}
